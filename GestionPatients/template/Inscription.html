@@ -1,0 +1,275 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css"/>
+    <style>
+        body {
+            background-image: url("{% static 'image1.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #f8f9fa; /* Couleur de fond de secours */
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 60px; /* Footer height */
+            box-sizing: border-box;
+        }
+        .container {
+           /* Couleur de fond avec opacité */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            background-color:rgb(210, 229, 230)
+        }
+        .card-header {
+            background: #828990;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background: #9ea1a5;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            transition: background 0.3s;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        .btn-link {
+            color: #007bff;
+            transition: color 0.3s;
+        }
+        .btn-link:hover {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        #pw1-rules {
+            padding-left: 15px;
+        }
+        #pw1-rules li {
+            list-style: none;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        header {
+            background: #343a40;
+            color: white;
+            padding: 10px 0;
+        }
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: #fff;
+        }
+        footer {
+            background: #343a40;
+            color: white;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .footer-content {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'pageaccueil' %}">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'apropos' %}">À propos</a>
+                    </li>
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'connecter' %}">Se connecter</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Inscription</h3>
+                </div>
+                <div class="card-body">
+                    <form action="#" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Nom d'utilisateur">
+                        </div>
+                        <div class="form-group">
+                            <label for="date_of_birth">Date de naissance</label>
+                            <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="Date de naissance (dd-mm-yyyy)">
+                        </div>
+                        <div class="form-group">
+                            <label for="email_address">Adresse Email</label>
+                            <input type="email" class="form-control" id="email_address" name="email_address" placeholder="Adresse Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="pw1">Mot de passe</label>
+                            <input type="password" class="form-control" id="pw1" name="pw1" placeholder="Mot de passe">
+                            <ul id="pw1-rules" class="mt-2"></ul>
+                        </div>
+                        <div class="form-group">
+                            <label for="pw2">Confirmer le mot de passe</label>
+                            <input type="password" class="form-control" id="pw2" name="pw2" placeholder="Confirmer le mot de passe">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">S'inscrire</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        Vous avez déjà un compte? <a href="{% url 'connecter' %}" class="btn-link">Connectez-vous ici</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2024 VotreSite. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs/build/alertify.min.js"></script>
+{% for msg in messages %}
+    <script>
+        alertify.set('notifier','position', 'top-right');
+        alertify.success('{{ msg }}');
+    </script>
+    {% endfor %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pw1Input = document.getElementById('pw1');
+        const pw1RulesList = document.getElementById('pw1-rules');
+        const form = document.querySelector('form');
+
+        const passwordRules = [
+            'Le mot de passe doit contenir au moins une lettre majuscule',
+            'Le mot de passe doit contenir au moins une lettre minuscule',
+            'Le mot de passe doit contenir au moins un chiffre',
+            'Le mot de passe doit avoir au moins 8 caractères'
+        ];
+
+        pw1Input.addEventListener('blur', function() {
+            pw1RulesList.textContent = "";
+        });
+
+        pw1Input.addEventListener('focus', function() {
+            pw1RulesList.innerHTML = '';
+            passwordRules.forEach(rule => {
+                const li = document.createElement('li');
+                li.textContent = rule;
+                li.classList.add('rule-invalid');
+                pw1RulesList.appendChild(li);
+            });
+        });
+
+        pw1Input.addEventListener('input', function() {
+            const pw1Value = pw1Input.value.trim();
+            const pw1RegexList = [
+                /[A-Z]/,
+                /[a-z]/,
+                /[0-9]/,
+                /.{8,}/
+            ];
+
+            pw1RulesList.querySelectorAll('li').forEach((ruleItem, index) => {
+                if (pw1RegexList[index].test(pw1Value)) {
+                    ruleItem.style.color = "green";
+                    ruleItem.innerHTML = `<img src="{% static 'verifie.png' %}" alt="Valider" width="20"> ${passwordRules[index]}`;
+                } else {
+                    ruleItem.style.color = "red";
+                    ruleItem.innerHTML = `<img src="{% static 'nv.png' %}" alt="Non Valider" width="20"> ${passwordRules[index]}`;
+                }
+            });
+        });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const date_of_birth = document.getElementById('date_of_birth').value.trim();
+            const email = document.getElementById('email_address').value.trim();
+            const pw1 = document.getElementById('pw1').value.trim();
+            const pw2 = document.getElementById('pw2').value.trim();
+
+            const pw1RegexList = [
+                /[A-Z]/,
+                /[a-z]/,
+                /[0-9]/,
+                /.{8,}/
+            ];
+
+            const isPasswordValid = pw1RegexList.every(regex => regex.test(pw1));
+
+            if (username === "" || date_of_birth === "" || email === "" || pw1 === "" || pw2 === "") {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.error('Tous les champs doivent être remplis !');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.error('Format de l\'adresse email invalide');
+                return;
+            }
+
+            if (!isPasswordValid) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.error('Le mot de passe ne répond pas aux critères requis');
+                return;
+            }
+
+            if (pw1 !== pw2) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.error('Les mots de passe ne correspondent pas');
+                return;
+            }
+
+            alertify.set('notifier', 'position', 'top-right');
+            alertify.success('Inscription validée');
+            form.submit();
+        });
+    });
+</script>
+</body>
+</html>

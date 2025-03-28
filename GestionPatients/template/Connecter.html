@@ -1,0 +1,129 @@
+{% extends 'basev.html' %}
+
+{% block c1 %}
+<style>
+    body {
+        background-image: url("imag");
+        font-family: 'Arial'sans-serif;
+
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: wheat;
+        border-radius: 10px;
+        
+    }
+
+    h2 {
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    label {
+        font-size: 16px;
+        color: #495057;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: #f5f5f5;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        outline: 0;
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ffc107;
+        color: #343a40;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #e0a800;
+    }
+
+    .btn-custom {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-custom:hover {
+        background-color: #212529;
+    }
+
+    p {
+        font-size: 14px;
+        color: #495057;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    a {
+        color: #ffc107;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    a:hover {
+        color: #e0a800;
+    }
+</style>
+
+<div class="container">
+    <h2>CONNEXION</h2>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <input type="text" name="username" id="username" placeholder="username" required >
+       
+        <input type="password" name="pwc" id="password" placeholder="password" required>
+        <button type="submit"><i class="fas fa-user"></i> SE CONNECTER</button>
+        <button type="button" class="btn-custom"> <a href="{% url 'inscription' %}"><i class="fas fa-user-plus"></i> S'INSCRIRE</a></button>
+        <p><a href="#">Mot de passe oublié ?</a></p>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    {% for msg in messages %}
+    <script>
+        alertify.set('notifier','position', 'top-right');
+        alertify.success('{{ msg }}');
+    </script>
+    {% endfor %}
+{% endblock %}
+
+{% block c0 %}
+<li><a href="{% url 'inscription' %}"><i class="fas fa-tv"></i> INSCRIVEZ-VOUS</a></li>
+<li><a href="{% url 'pageaccueil' %}"><i class="fas fa-home"></i> Accueil</a></li>
+{% endblock %}

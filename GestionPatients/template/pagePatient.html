@@ -1,0 +1,74 @@
+{% extends 'basev.html' %}
+
+{% block c1 %}
+{% load static %}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+{% for msg in messages %}
+<script>
+    alertify.set('notifier','position', 'top-right');
+    alertify.success('{{msg}}');
+</script>
+{% endfor %}
+
+<style>
+    .info {
+        background-color:rgb(25, 27, 28);
+        
+        display: flex;
+        position: relative;
+        text-align: left;
+        width: 600px;
+        height: 400px;
+        padding: 5px;
+        transition: 0.5s ease;
+        transform: translateX(-400px);
+    }
+    
+    .container ul li {
+        list-style: none;
+        padding: 15px;
+        font-size: 15px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    
+    .container ul li:hover {
+        transition: 0.5s ease;
+        font-size: 16px;
+        
+        
+    }
+    
+    
+    
+    
+</style>
+
+<div class="container mt-7">
+    <ul>
+        <li><i class="fas fa-file"></i><a href="{% url 'planingallMedecin' %}">
+            <span style="color:azure; text-decoration: none;">CONSULTER LE(S) PLANNING DES MÉDECINS</span>
+        </a></li>
+        <li><i class="fas fa-file"></i><a href="{% url 'listeDoctor' %}">
+            <span style="color:azure; text-decoration: none;">VISUALISER LES MEDECINS</span>
+        </a></li>
+        
+        <li><i class="fas fa-user"></i><a href="{% url 'mesRendezVous' %}">
+            <span style="color:azure; text-decoration: none;">CATALOGUE DES RENDEZ-VOUS</span>
+        </a></li>
+
+        <li ><i class="far fa-address-book"></i><a href="{% url 'pageaccueil' %}">
+            <span style="color:azure; text-decoration: none;">Accueil</span>
+        </a></li>
+
+        <li><i class="fas fa-sign-in-alt"></i><a href="{% url 'deconnecter' %}">
+            <span style="color:azure; text-decoration: none;">DÉCONNECTER</span>
+        </a></li>
+    </ul>
+</div>
+
+{% endblock %}

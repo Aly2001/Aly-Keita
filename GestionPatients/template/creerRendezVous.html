@@ -1,0 +1,68 @@
+{% extends 'basev.html' %}
+
+{% block c1 %}
+<style>
+    .info {
+        height: auto; /* Ajustement de la hauteur */
+        width: 100%; /* Largeur ajustée à 100% */
+        padding: 20px; /* Espacement intérieur accru */
+        color: #333; /* Couleur du texte modifiée */
+        margin: 20px auto; /* Centrage horizontal */
+        background-color: #f8f9fa; /* Couleur de fond ajoutée */
+        border-radius: 10px; /* Bord arrondi */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    }
+
+    /* Style pour les étiquettes */
+    .info label {
+        font-weight: bold; /* Police en gras */
+        margin-bottom: 5px; /* Espacement inférieur ajusté */
+    }
+
+    /* Style pour les boutons */
+    .info button {
+        margin-top: 10px; /* Espacement supérieur ajouté */
+    }
+</style>
+
+{% load static %}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+{% for msg in messages %}
+<script>
+    alertify.set('notifier', 'position', 'top-right');
+    alertify.success('{{msg}}');
+</script>
+{% endfor %}
+
+<div class="info">
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
+            <h1 class="my-4">Rendez-vous</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <label for="date">La date</label>
+                            <input type="date" name="date" id="date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <label for="heure">Heure</label>
+                            <input type="time" name="heure" id="heure" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-warning">Valider</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

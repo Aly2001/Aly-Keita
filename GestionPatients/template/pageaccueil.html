@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Mon Application</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+    background-color: #aab52b; /* Couleur de fond légèrement bleutée */
+    font-family: Arial sans-serif;
+    
+}
+        .jumbotron {
+            
+            background-size: cover;
+            color: black;
+            text-align: center;
+            padding: 150px 20px;
+            margin-bottom: 0;
+            font-size: 25px;
+            background-image: url("static/image1.jpg");
+        }
+        .btn-start {
+            border-radius: 25px;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        .btn-start:hover {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'apropos' %}">À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="jumbotron">
+    <div class="container text-center">
+        <h3 class="display-4 mb-4">Bienvenue sur l'application de prise de rendez-vous en ligne</h3>
+        <p class="lead">Gérez vos rendez-vous médicaux en ligne en toute simplicité.</p>
+        <hr class="my-4">
+        <p>Connectez-vous dès maintenant ou inscrivez-vous pour commencer.</p>
+        <a class="btn btn-success btn-lg btn-start" href="{% url 'connecter' %}" role="button">Se connecter</a>
+        <a class="btn btn-primary btn-lg btn-start" href="{%url 'inscription'%}" role="button">S'inscrire</a>
+    </div>
+</div>
+
+
+
+<footer class="footer">
+    <div class="container">
+        <span>© 2024 Mon Application. Tous droits réservés.</span>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

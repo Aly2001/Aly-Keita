@@ -1,0 +1,135 @@
+{% extends 'basev.html' %}
+{%block c1%}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+{% for msg in messages %}
+<script>
+   
+    alertify.set('notifier','position', 'top-right');
+     alertify.success('{{msg}}');
+       
+  </script>
+  {%endfor%}
+<style>
+    
+    .info
+    {
+        background-color:#271f1ff7;
+        display: flex;
+        position: relative;
+        text-align: left;
+        width: 380px;
+        height: 600px;
+        padding: 5px;
+        transition: 0.5s ease;
+        transform: translateX(-400px);
+       
+    }
+   
+    
+    .info ul li{
+        list-style: none;
+        padding: 15px;
+        font-size: 15px;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-weight:bold;
+    }
+     ul li:hover{
+        transition: 0.5s ease;
+        font-size: 16px;
+        background-color:rgb(80, 72, 58);
+        box-shadow: 1px 2px 0 0;
+    }
+    .info ul li a .fas{
+        width: 15px;
+        
+    }
+    ul li a
+    {
+        padding: 5px 0;
+    }
+    
+    input
+    {
+        display: none;
+        visibility: hidden;
+        
+    }
+    .toggle{
+        position: absolute;
+        height: 40px;
+        width: 50px;
+        z-index: 1px;
+        top: 20px;
+        left: 15px;
+        border-radius: 2px;
+        background-color:black;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+    }
+    .toggle:hover
+    {
+        cursor: pointer;
+        transition: 0.5s;
+    }
+    .toggle .common
+    {
+        position:absolute;
+        height: 2px;
+        width: 40px;
+        background-color:wheat;
+        border-radius: 50px;
+        transition: 0.3s ease;
+    }
+    .toggle .top-line
+{
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.toggle .middle-line
+{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.toggle .bottom-line
+{
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+input:checked ~ .toggle .bottom-line
+{
+top:2px;
+left: 14px;
+width: 45px;
+
+}
+
+
+
+</style>
+
+
+    <ul>
+        <li><i class="fas fa-file"></i><a  href="{% url 'medecincinPlaningRdv' %}">
+            <span style="color:azure; text-decoration: none;">MES PLANING DE RENDEZ-VOUS</span>
+        </a><br>
+        <li><i class="fas fa-file"></i><a  href="{% url 'creerRebdezVous' %}">
+            <span style="color:azure; text-decoration: none;" >CREER PLANING DE RENDEZ-VOUS</span>
+        </a><br>
+
+        <li><i class="fas fa-user"></i><a  href="{% url 'rendezVousConserver'%}">
+            <span style="color:azure; text-decoration: none;">LISTE DES RENDEZ-VOUS DEJA RESERVE </span>
+        </a></li>
+    
+
+
+    <li><i class="fas fa-sign-in-alt"></i><a  href="{% url 'deconnecter' %}">
+        <span style="color:azure; text-decoration: none;">DECONNECTER</span>
+    </a></li><br>
+</ul>
+{%endblock%}   
+   
