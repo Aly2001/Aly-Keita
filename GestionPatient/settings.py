@@ -12,33 +12,57 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-import django
-from django.utils.encoding import force_str
-django.utils.encoding.force_text=force_str
+from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# ── Les secrets ne sont JAMAIS écrits dans le code ──
+# Ils viennent des variables d'environnement, ou d'un fichier .env local
+# (copie de .env.example, jamais envoyé sur GitHub grâce au .gitignore).
+def _charger_env(chemin=BASE_DIR / ".env"):
+    if chemin.exists():
+        for ligne in chemin.read_text(encoding="utf-8").splitlines():
+            ligne = ligne.strip()
+            if ligne and not ligne.startswith("#") and "=" in ligne:
+                cle, valeur = ligne.split("=", 1)
+                os.environ.setdefault(cle.strip(), valeur.strip().strip('"').strip("'"))
+
+
+_charger_env()
+
+DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"   # désactivé par défaut : plus sûr
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = "cle-de-developpement-uniquement-pas-pour-la-production"
+    else:
+        raise ImproperlyConfigured("DJANGO_SECRET_KEY manquante : voir le fichier .env.example")
+ALLOWED_HOSTS = [h for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if h]
 TEMPLATE_DIR=os.path.join(BASE_DIR,'GestionPatients/template')
 STATICFILES_DIR=['static']
 MEDIA_URL='images/images/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'images/images/')
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True  
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587  
-EMAIL_HOST_USER = 'alykeita295@gmail.com'  
-EMAIL_HOST_PASSWORD = 'mcwi eeqj llvy ougg' 
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+# Sans mot de passe (en local), les e-mails s'affichent dans le terminal au lieu de partir.
+EMAIL_BACKEND = (
+    "django.core.mail.backends.smtp.EmailBackend" if EMAIL_HOST_PASSWORD
+    else "django.core.mail.backends.console.EmailBackend"
+)
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER or "noreply@localhost"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xfsmh&n(-h3q020iy%lap_4rzfdqsm*ny+$$xcnztdrp9&m_@#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -121,10 +145,8 @@ LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 
-TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

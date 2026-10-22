@@ -2,7 +2,11 @@ from django.shortcuts import render,redirect,get_object_or_404
 from GestionPatient import settings
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
+import logging
+import smtplib
+
+log = logging.getLogger(__name__)
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth import login,logout,authenticate
@@ -12,7 +16,7 @@ from.models import User,Disponibilite,RendezVous
 from django.core.mail import EmailMessage
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes,force_text
+from django.utils.encoding import force_bytes,force_str
 from django.contrib.sites.shortcuts import get_current_site
 from .token import generatorToken
 import datetime
@@ -31,36 +35,34 @@ def inscription(request,**kwargs):
         daten=request.POST.get('date_of_birth')
         email_address=request.POST.get('email_address')
         password1=request.POST.get('pw1')
-        User = get_user_model()  
+        User = get_user_model()
         try:
-            user=User.objects.create(username=username,email=email_address,is_active=False,password=make_password(password1),date_naissance=daten)
-            messages.success(request,"Compte créé avec succes !")
-
-            subject="Creation de votre compte prise de rendez-vous Medicale"
-            message="Bonjour "+username+"\nAvec plaisir de vous informer que votre compte a été creé avec succes !\n\n\nMerci coordialement !"
-            from_email=settings.EMAIL_HOST_USER
-            to_list=[user.email]
-            send_mail(subject,message,from_email,to_list,fail_silently=False)
-            #email de confirmation
-            current_site=get_current_site(request)
-            subject="Confirmation de l'adresse mail"
-            message=render_to_string('emailconfirme.html',{
-                "name":username,
-                'domain':current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':generatorToken.make_token(user)
-            })
-            email=EmailMessage(
-                subject,
-                message,
-                settings.EMAIL_HOST_USER,
-                [user.email]
-            )
-            email.fail_silently=False
-            email.send()
+            # Tout ou rien : si un e-mail ne part pas, le compte n'est pas créé.
+            # Sinon on obtiendrait un compte désactivé que personne ne pourrait activer.
+            with transaction.atomic():
+                user=User.objects.create(username=username,email=email_address,is_active=False,password=make_password(password1),date_naissance=daten)
+                subject="Creation de votre compte prise de rendez-vous Medicale"
+                message="Bonjour "+username+"\nAvec plaisir de vous informer que votre compte a été creé avec succes !\n\n\nMerci coordialement !"
+                send_mail(subject,message,settings.DEFAULT_FROM_EMAIL,[user.email],fail_silently=False)
+                #email de confirmation
+                current_site=get_current_site(request)
+                subject="Confirmation de l'adresse mail"
+                message=render_to_string('emailconfirme.html',{
+                    "name":username,
+                    'domain':current_site.domain,
+                    'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token':generatorToken.make_token(user)
+                })
+                email=EmailMessage(subject,message,settings.DEFAULT_FROM_EMAIL,[user.email])
+                email.send(fail_silently=False)
+            messages.success(request,"Compte créé avec succes ! Un e-mail d'activation vous a été envoyé.")
             return redirect('connecter')
         except IntegrityError:
             messages.error(request,"Cet utilisateur existe dejà")
+            return redirect('inscription')
+        except (smtplib.SMTPException, OSError):
+            log.exception("Envoi de l'e-mail d'inscription impossible")
+            messages.error(request,"L'e-mail d'activation n'a pas pu être envoyé : votre compte n'a pas été créé. Réessayez dans quelques minutes.")
             return redirect('inscription')
     return render(request,'Inscription.html')
 def connecter(request, **kwargs):
@@ -282,7 +284,7 @@ def modify_rendezvous(request,my_id,**kwargs):
             return redirect(reverse('medecincinPlaningRdv'))
 def activate(request,uidb64,token):
     try:
-        uid=force_text(urlsafe_base64_decode(uidb64))
+        uid=force_str(urlsafe_base64_decode(uidb64))
         user=User.objects.get(pk=uid)
     except(TypeError,ValueError,OverflowError,User.DoeNotExist):
         user=None

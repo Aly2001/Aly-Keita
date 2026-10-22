@@ -1,0 +1,13 @@
+# Fichiers générés automatiquement par Python
+__pycache__/
+*.pyc
+
+# Base de données locale (elle peut contenir des comptes et des données de patients)
+db.sqlite3
+
+# Secrets : uniquement en local ou sur le serveur, jamais sur GitHub
+.env
+
+# Environnement Python
+.venv/
+venv/
