@@ -1,8 +1,15 @@
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from six import text_type
+
+
 class TokenGenerator(PasswordResetTokenGenerator):
-    def _make_has_value(self,user,timestamp):
-        return (
-            text_type(user.pk)+text_type(timestamp)
-        )
-generatorToken=TokenGenerator()
+    """Jeton du lien d'activation.
+
+    Il contient l'état « actif » du compte : une fois le compte activé,
+    le même lien ne fonctionne plus (lien à usage unique).
+    """
+
+    def _make_hash_value(self, user, timestamp):
+        return f"{user.pk}{timestamp}{user.is_active}"
+
+
+generatorToken = TokenGenerator()
